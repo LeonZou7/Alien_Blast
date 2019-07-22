@@ -38,7 +38,7 @@ def run_game():
 
     while True:
         # 检查事件
-        func.check_events(ab_settings, screen, stats, play_button, ship, bullets)
+        func.check_events(ab_settings, screen, stats, play_button, ship, aliens, bullets)
 
         if stats.game_active:
             # 飞船事件

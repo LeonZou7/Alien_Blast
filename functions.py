@@ -7,7 +7,7 @@ from alien import Alien
 from random import randint
 
 
-def check_events(ab_settings, screen, stats, play_button, ship, bullets):
+def check_events(ab_settings, screen, stats, play_button, ship, aliens, bullets):
     # 事件监视
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -21,12 +21,28 @@ def check_events(ab_settings, screen, stats, play_button, ship, bullets):
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(stats, play_button, mouse_x, mouse_y)
+            check_play_button(ab_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y)
 
 
-def check_play_button(stats, play_button, mouse_x, mouse_y):
-    if play_button.rect.collidepoint(mouse_x, mouse_y):
+def check_play_button(ab_settings, screen, stats, play_button, ship, aliens, bullets, mouse_x, mouse_y):
+    # 单击开始
+    clicked = play_button.rect.collidepoint(mouse_x,mouse_y)
+
+    if clicked and not stats.game_active:
+        stats.reset_stats()
         stats.game_active = True
+        ab_settings.init_dynamic_settings()
+
+        # 隐藏光标
+        pygame.mouse.set_visible(False)
+
+        # 清空全部
+        aliens.empty()
+        bullets.empty()
+
+        # 还原初始状态
+        ship.center_ship()
+        create_fleet(ab_settings, screen, ship, aliens)
 
 
 def check_keydown_events(event, ab_settings, screen, ship, bullets):
@@ -163,6 +179,7 @@ def check_bullet_alien_collisions(ab_settings, screen, ship, aliens, bullets):
 
     # 刷新Alien
     if len(aliens) == 0:
+        ab_settings.increase_speed()
         create_fleet(ab_settings, screen, ship, aliens)
 
 
@@ -185,7 +202,9 @@ def ship_hit(ab_settings, stats, screen, ship, aliens, bullets):
 
         create_fleet(ab_settings, screen, ship, aliens)
         ship.center_ship()
+        ab_settings.init_dynamic_settings()
 
         time.sleep(1)
     else:
         stats.game_active = False
+        pygame.mouse.set_visible(True)
