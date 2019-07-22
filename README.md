@@ -1,6 +1,4 @@
 # Alien_Blast
-Primary practice project for python
-
-This project is designed to familiarize with Python's language features and how git is used.  
-This project has detailed guidance in the book "Introduction to Practice from Python Programming".  
-I plan to add some new features to improve its playability after initial completion, and also as a way to test my understanding of it.
+此项目用于熟悉python编程与掌握git常用操作。  
+此项目可在《Python编程 从入门到实践》一书中找到。  
+本人计划在项目初步完成之后添加一些增加游戏性的拓展内容，以此来检验自己的了解程度。  
