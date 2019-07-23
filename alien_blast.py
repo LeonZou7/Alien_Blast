@@ -5,6 +5,7 @@ from settings import Settings
 from ship import Ship
 from stats import GameStats
 from button import Button
+from score_board import Scoreboard
 from pygame.sprite import Group
 
 
@@ -25,6 +26,9 @@ def run_game():
 
     # 设置统计信息
     stats = GameStats(ab_settings)
+
+    # 创建计分器
+    scoreboard = Scoreboard(ab_settings, screen, stats)
 
     # 放置飞船
     ship = Ship(ab_settings, screen)
@@ -51,7 +55,7 @@ def run_game():
             func.update_bullets(ab_settings, screen, ship, aliens, bullets)
 
         # 重绘屏幕
-        func.update_screen(ab_settings, screen, stats, ship, aliens, bullets, play_button)
+        func.update_screen(ab_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button)
 
 
 run_game()
