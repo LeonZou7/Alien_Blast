@@ -63,7 +63,7 @@ def check_keyup_events(event, ship):
         ship.move_left = False
 
 
-def update_screen(ab_settings, screen, stats, ship, aliens, bullets, play_button):
+def update_screen(ab_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button):
     # 显示按钮
     if not stats.game_active:
         play_button.draw_button()
@@ -80,6 +80,9 @@ def update_screen(ab_settings, screen, stats, ship, aliens, bullets, play_button
         # 绘制子弹
         for bullet in bullets:
             bullet.draw_bullet()
+
+        # 显示计分器
+        scoreboard.show_score()
 
     # 窗口可见
     pygame.display.flip()
