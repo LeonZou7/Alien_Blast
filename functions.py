@@ -141,20 +141,6 @@ def check_fleet_edge(ab_settings, aliens):
             break
 
 
-def update_aliens(ab_settings, stats, screen, ship, aliens, bullets):
-    # 移动Alien
-    check_fleet_edge(ab_settings, aliens)
-    aliens.update()
-
-    # 飞船与Alien碰撞检测
-    if pygame.sprite.spritecollideany(ship, aliens):
-        print("Ship hit!")
-        ship_hit(ab_settings, stats, screen, ship, aliens, bullets)
-
-    # Alien到达底部监测
-    check_alien_reach_bottom(ab_settings, stats, screen, ship, aliens, bullets)
-
-
 def fire_bullets(ab_settings, screen, ship, bullets):
     # 发射子弹
     if len(bullets) <= ab_settings.bullet_max:
@@ -163,22 +149,16 @@ def fire_bullets(ab_settings, screen, ship, bullets):
         print(len(bullets))
 
 
-def update_bullets(ab_settings, screen, ship, aliens, bullets):
-    # 子弹移动
-    bullets.update()
-
-    # 到达底部的子弹消除
-    for bullet in bullets:
-        if bullet.rect.bottom <= 0:
-            bullets.remove(bullet)
-            print(len(bullets))
-
-    check_bullet_alien_collisions(ab_settings, screen, ship, aliens, bullets)
-
-
-def check_bullet_alien_collisions(ab_settings, screen, ship, aliens, bullets):
+def check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, aliens, bullets):
     # 碰撞检测 两个True分别删除子弹和Alien
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    # 增加得分
+    if collisions:
+        for aliens in collisions.values():
+            # 分数 = 单只分数 * 数量
+            stats.score += ab_settings.alien_points * len(aliens)
+            scoreboard.prep_score()
 
     # 刷新Alien
     if len(aliens) == 0:
@@ -211,3 +191,30 @@ def ship_hit(ab_settings, stats, screen, ship, aliens, bullets):
     else:
         stats.game_active = False
         pygame.mouse.set_visible(True)
+
+
+def update_aliens(ab_settings, stats, screen, ship, aliens, bullets):
+    # 移动Alien
+    check_fleet_edge(ab_settings, aliens)
+    aliens.update()
+
+    # 飞船与Alien碰撞检测
+    if pygame.sprite.spritecollideany(ship, aliens):
+        print("Ship hit!")
+        ship_hit(ab_settings, stats, screen, ship, aliens, bullets)
+
+    # Alien到达底部监测
+    check_alien_reach_bottom(ab_settings, stats, screen, ship, aliens, bullets)
+
+
+def update_bullets(ab_settings, screen, stats, scoreboard, ship, aliens, bullets):
+    # 子弹移动
+    bullets.update()
+
+    # 到达底部的子弹消除
+    for bullet in bullets:
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+            print(len(bullets))
+
+    check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, aliens, bullets)

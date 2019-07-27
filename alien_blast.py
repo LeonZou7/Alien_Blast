@@ -52,7 +52,7 @@ def run_game():
             func.update_aliens(ab_settings, stats, screen, ship, aliens, bullets)
 
             # 子弹事件
-            func.update_bullets(ab_settings, screen, ship, aliens, bullets)
+            func.update_bullets(ab_settings, screen, stats, scoreboard, ship, aliens, bullets)
 
         # 重绘屏幕
         func.update_screen(ab_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button)

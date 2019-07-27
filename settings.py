@@ -38,6 +38,9 @@ class Settings:
         # 1 -> 右移， -1 -> 左移
         self.alien_fleet_direction = 1
 
+        # Alien分数
+        self.alien_points = 10
+
     def increase_speed(self):
         """速度提升"""
         self.round += 1
