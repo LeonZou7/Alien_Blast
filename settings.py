@@ -28,6 +28,7 @@ class Settings:
 
         # Level up
         self.speedup_scale = 1.2
+        self.score_scale = 1.5
         self.init_dynamic_settings()
 
     def init_dynamic_settings(self):
@@ -49,3 +50,6 @@ class Settings:
         if bullet_speedup:
             self.bullet_speed *= self.speedup_scale
             self.ship_speed *= self.speedup_scale
+
+        # 增加分数
+        self.alien_points  = int(self.alien_points * self.score_scale)

@@ -159,6 +159,7 @@ def check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, 
             # 分数 = 单只分数 * 数量
             stats.score += ab_settings.alien_points * len(aliens)
             scoreboard.prep_score()
+        check_highest_score(stats, scoreboard)
 
     # 刷新Alien
     if len(aliens) == 0:
@@ -173,6 +174,13 @@ def check_alien_reach_bottom(ab_settings, stats, screen, ship, aliens, bullets):
             print("Alien breakthrough front!")
             ship_hit(ab_settings, stats, screen, ship, aliens, bullets)
             break
+
+
+def check_highest_score(stats, scoreboard):
+    # 检测新的最高分
+    if stats.score > stats.highest_score:
+        stats.highest_score = stats.score
+        scoreboard.prep_highest_score()
 
 
 def ship_hit(ab_settings, stats, screen, ship, aliens, bullets):
