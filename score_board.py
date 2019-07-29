@@ -15,6 +15,7 @@ class Scoreboard:
         # 初始化图像
         self.prep_score()
         self.prep_highest_score()
+        self.prep_level()
 
     def prep_score(self):
         # 得分圆整化
@@ -44,6 +45,17 @@ class Scoreboard:
         self.highest_score_rect.centerx = self.screen_rect.centerx
         self.highest_score_rect.top = self.screen_rect.top
 
+    def prep_level(self):
+        # 渲染等级图像
+        level_str = str(self.stats.level)
+        self.level_image = self.font.render(level_str, True, self.text_color, self.ab_settings.bg_color)
+
+        # 放置于得分图像下方
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 5
+
     def show_score(self):
         self.screen.blit(self.score_image, self.score_rect)
-        self.screen.blit(self.highest_score_image, self.screen_rect)
+        self.screen.blit(self.highest_score_image, self.highest_score_rect)
+        self.screen.blit(self.level_image, self.level_rect)
