@@ -37,6 +37,7 @@ def check_play_button(ab_settings, screen, stats, scoreboard, play_button, ship,
         scoreboard.prep_level()
         scoreboard.prep_score()
         scoreboard.prep_highest_score()
+        scoreboard.prep_ships()
 
         # 隐藏光标
         pygame.mouse.set_visible(False)
@@ -176,12 +177,12 @@ def check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, 
         scoreboard.prep_level()
 
 
-def check_alien_reach_bottom(ab_settings, stats, screen, ship, aliens, bullets):
+def check_alien_reach_bottom(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):
     screen_rect = screen.get_rect()
     for alien in aliens:
         if alien.rect.bottom >= screen_rect.bottom:
             print("Alien breakthrough front!")
-            ship_hit(ab_settings, stats, screen, ship, aliens, bullets)
+            ship_hit(ab_settings, stats, scoreboard, screen, ship, aliens, bullets)
             break
 
 
@@ -192,10 +193,13 @@ def check_highest_score(stats, scoreboard):
         scoreboard.prep_highest_score()
 
 
-def ship_hit(ab_settings, stats, screen, ship, aliens, bullets):
+def ship_hit(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):
     # 飞船碰撞 重置游戏
     if stats.ship_life > 0:
         stats.ship_life -= 1
+
+        # 更新记分牌
+        scoreboard.prep_ships()
 
         aliens.empty()
         bullets.empty()
@@ -210,7 +214,7 @@ def ship_hit(ab_settings, stats, screen, ship, aliens, bullets):
         pygame.mouse.set_visible(True)
 
 
-def update_aliens(ab_settings, stats, screen, ship, aliens, bullets):
+def update_aliens(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):
     # 移动Alien
     check_fleet_edge(ab_settings, aliens)
     aliens.update()
@@ -218,10 +222,10 @@ def update_aliens(ab_settings, stats, screen, ship, aliens, bullets):
     # 飞船与Alien碰撞检测
     if pygame.sprite.spritecollideany(ship, aliens):
         print("Ship hit!")
-        ship_hit(ab_settings, stats, screen, ship, aliens, bullets)
+        ship_hit(ab_settings, stats, scoreboard, screen, ship, aliens, bullets)
 
     # Alien到达底部监测
-    check_alien_reach_bottom(ab_settings, stats, screen, ship, aliens, bullets)
+    check_alien_reach_bottom(ab_settings, stats, scoreboard, screen, ship, aliens, bullets)
 
 
 def update_bullets(ab_settings, screen, stats, scoreboard, ship, aliens, bullets):

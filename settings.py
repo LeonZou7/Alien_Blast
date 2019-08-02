@@ -11,7 +11,7 @@ class Settings:
         self.bg_color = (230, 230, 230)
 
         # 飞船设定
-        self.ship_limit_life = 5
+        self.ship_limit_life = 3
 
         # Alien设定
         self.alien_drop_speed = 5
