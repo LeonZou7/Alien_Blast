@@ -22,6 +22,8 @@ class Scoreboard:
         rounded_score = round(self.stats.score, -1)
         # 输出规格化 （1000 -> 1,000）
         score_str = "{:,}".format(rounded_score)
+        # 数值说明
+        score_str = "Score: " + score_str
 
         # 渲染图像
         self.score_image = self.font.render(score_str, True, self.text_color, self.ab_settings.bg_color)
@@ -36,6 +38,8 @@ class Scoreboard:
         highest_score = round(self.stats.highest_score, -1)
         # 输出规格化
         highest_score_str = "{:,}".format(highest_score)
+        # 数值说明
+        highest_score_str = "Highest score: " + highest_score_str
 
         # 渲染图像
         self.highest_score_image = self.font.render(highest_score_str, True, self.text_color, self.ab_settings.bg_color)
@@ -48,6 +52,8 @@ class Scoreboard:
     def prep_level(self):
         # 渲染等级图像
         level_str = str(self.stats.level)
+        # 数值说明
+        level_str = "Level: " + level_str
         self.level_image = self.font.render(level_str, True, self.text_color, self.ab_settings.bg_color)
 
         # 放置于得分图像下方
