@@ -39,11 +39,12 @@ class Scoreboard:
 
     def prep_highest_score(self):
         # 最高分圆整化
-        highest_score = round(self.stats.highest_score, -1)
+        highest_score = self.stats.highest_score
         # 输出规格化
         highest_score_str = "{:,}".format(highest_score)
         # 数值说明
         highest_score_str = "Highest score: " + highest_score_str
+        # highest_score_str = str(self.stats.highest_score)
 
         # 渲染图像
         self.highest_score_image = self.font.render(highest_score_str, True, self.text_color, self.ab_settings.bg_color)

@@ -14,7 +14,7 @@ def check_events(ab_settings, screen, stats, scoreboard, play_button, ship, alie
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ab_settings, screen, ship, bullets)
+            check_keydown_events(event, ab_settings, stats, screen, ship, bullets)
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
@@ -51,7 +51,7 @@ def check_play_button(ab_settings, screen, stats, scoreboard, play_button, ship,
         create_fleet(ab_settings, screen, ship, aliens)
 
 
-def check_keydown_events(event, ab_settings, screen, ship, bullets):
+def check_keydown_events(event, ab_settings, stats, screen, ship, bullets):
     if event.key == pygame.K_RIGHT:
         ship.move_right = True
     elif event.key == pygame.K_LEFT:
@@ -59,6 +59,7 @@ def check_keydown_events(event, ab_settings, screen, ship, bullets):
     elif event.key == pygame.K_SPACE:
         fire_bullets(ab_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
+        stats.set_highest_score()
         sys.exit()
 
 
@@ -67,31 +68,6 @@ def check_keyup_events(event, ship):
         ship.move_right = False
     elif event.key == pygame.K_LEFT:
         ship.move_left = False
-
-
-def update_screen(ab_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button):
-    # 显示按钮
-    if not stats.game_active:
-        play_button.draw_button()
-    else:
-        # 重绘窗口
-        screen.fill(ab_settings.bg_color)
-
-        # 绘制飞船
-        ship.blitme()
-
-        # 绘制Alien
-        aliens.draw(screen)
-
-        # 绘制子弹
-        for bullet in bullets:
-            bullet.draw_bullet()
-
-        # 显示计分器
-        scoreboard.show_score()
-
-    # 窗口可见
-    pygame.display.flip()
 
 
 def get_alien_rows(ab_settigns, ship_height, alien_height):
@@ -239,3 +215,28 @@ def update_bullets(ab_settings, screen, stats, scoreboard, ship, aliens, bullets
             print(len(bullets))
 
     check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, aliens, bullets)
+
+
+def update_screen(ab_settings, screen, stats, scoreboard, ship, aliens, bullets, play_button):
+    # 显示按钮
+    if not stats.game_active:
+        play_button.draw_button()
+    else:
+        # 重绘窗口
+        screen.fill(ab_settings.bg_color)
+
+        # 绘制飞船
+        ship.blitme()
+
+        # 绘制Alien
+        aliens.draw(screen)
+
+        # 绘制子弹
+        for bullet in bullets:
+            bullet.draw_bullet()
+
+        # 显示计分器
+        scoreboard.show_score()
+
+    # 窗口可见
+    pygame.display.flip()
