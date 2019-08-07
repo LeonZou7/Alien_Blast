@@ -33,6 +33,11 @@ def check_play_button(ab_settings, screen, stats, scoreboard, play_button, ship,
         stats.game_active = True
         ab_settings.init_dynamic_settings()
 
+        # 播放BGM
+        pygame.mixer.music.load('music/BGM.mp3')
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.play(-1, 0)
+
         # 重置记分牌
         scoreboard.prep_level()
         scoreboard.prep_score()
@@ -126,6 +131,9 @@ def check_fleet_edge(ab_settings, aliens):
 def fire_bullets(ab_settings, screen, ship, bullets):
     # 发射子弹
     if len(bullets) <= ab_settings.bullet_max:
+        # 播放射击音效
+        play_sound('music/Shoot.wav')
+        # 创建子弹
         new_bullet = Bullet(ab_settings, screen, ship)
         bullets.add(new_bullet)
         print(len(bullets))
@@ -137,6 +145,10 @@ def check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, 
 
     # 增加得分
     if collisions:
+        # 播放碰撞音效
+        play_sound('music/Crash.wav')
+
+        # 得分
         for aliens in collisions.values():
             # 分数 = 单只分数 * 数量
             stats.score += ab_settings.alien_points * len(aliens)
@@ -151,6 +163,8 @@ def check_bullet_alien_collisions(ab_settings, screen, stats, scoreboard, ship, 
         # 提升等级
         stats.level += 1
         scoreboard.prep_level()
+        # 播放升级音效
+        play_sound('music/Level_up.wav')
 
 
 def check_alien_reach_bottom(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):
@@ -188,6 +202,12 @@ def ship_hit(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):
     else:
         stats.game_active = False
         pygame.mouse.set_visible(True)
+
+
+def play_sound(path):
+    # 播放音效
+    sound = pygame.mixer.Sound(path)
+    sound.play(0, 0)
 
 
 def update_aliens(ab_settings, stats, scoreboard, screen, ship, aliens, bullets):

@@ -11,9 +11,13 @@ from pygame.sprite import Group
 
 def run_game():
 
-    # 初始化窗口
+    # 初始化
     pygame.init()
+    pygame.mixer.init()
     ab_settings = Settings()
+
+    # 延迟1秒让mixer初始化
+    pygame.time.delay(1000)
 
     # 设置分辨率
     screen = pygame.display.set_mode((ab_settings.screen_width, ab_settings.screen_height))
@@ -22,7 +26,7 @@ def run_game():
     pygame.display.set_caption("Alien Blast")
 
     # 创建按钮
-    play_button = Button(ab_settings, screen, "Play")
+    play_button = Button(screen, "Play")
 
     # 设置统计信息
     stats = GameStats(ab_settings)
